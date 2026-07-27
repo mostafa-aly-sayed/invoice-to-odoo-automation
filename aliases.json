@@ -1,0 +1,30 @@
+{
+  "_comment": "Optional name-normalization dictionary. Keys are lowercase extracted candidate strings (Arabic or English), values are the EXACT Odoo customer name to use instead of fuzzy matching. Add entries here whenever you see a wrong/low-confidence match in needs_review.csv or on a created quotation's chatter note. This is just a data lookup — it does not change how any specific sender's email is parsed.",
+
+  "mahmoud elfar": "شركه الفار التجاريه",
+  "far trading co.": "شركه الفار التجاريه",
+  "far trading co": "شركه الفار التجاريه",
+  "الفار": "شركه الفار التجاريه",
+  "شركة الفار التجاريه": "شركه الفار التجاريه",
+  "ماركت محمود الفار": "شركه الفار التجاريه",
+  "elfar": "شركه الفار التجاريه",
+
+  "bridfast": "شركه بريد فاست شركه بريدفاست",
+  "بريد فاست": "شركه بريد فاست شركه بريدفاست",
+  "بريدفاست": "شركه بريد فاست شركه بريدفاست",
+
+  "oscar grand stores": "المجموعه الدوليه لتجاره المواد الغذائيه اوسكار جراند استورز",
+  "اوسكار جراند استورز": "المجموعه الدوليه لتجاره المواد الغذائيه اوسكار جراند استورز",
+  "اوسكار": "المجموعه الدوليه لتجاره المواد الغذائيه اوسكار جراند استورز",
+
+  "united grocers": "شركه يونيتد جروسرز شركة يونيتد جروسرز",
+  "يونيتد جروسرز": "شركه يونيتد جروسرز شركة يونيتد جروسرز",
+  "seoudi": "شركه يونيتد جروسرز شركة يونيتد جروسرز",
+  "seoudi supermarket": "شركه يونيتد جروسرز شركة يونيتد جروسرز",
+  "سعودي": "شركه يونيتد جروسرز شركة يونيتد جروسرز",
+  "سعودى": "شركه يونيتد جروسرز شركة يونيتد جروسرز",
+
+  "_note_seoudi": "Seoudi is recorded in Odoo under the legal entity name 'شركه يونيتد جروسرز شركة يونيتد جروسرز' (United Grocers), not as a separate 'Seoudi' customer. Confirmed by the branch list matching (الحجاز, هايد بارك, سوديك ايست, ووتر واي, زايد all appear as its children) and historical orders S00093-S00096.",
+
+  "_note_naturestar": "id 266 'ناتورستار للاستثمار' is our own company (Naturesta) under a slightly different spelling in Odoo, NOT a customer. It's already excluded from matching via own_company_keywords in config.json — no alias needed, it should never be created as an order."
+}

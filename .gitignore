@@ -1,0 +1,21 @@
+# Secrets — never commit this. Copy config.example.json to config.json locally instead.
+config.json
+
+# Runtime-generated state, not source
+processed_emails.json
+needs_review.csv
+app_data.db
+app_data.db-journal
+review_attachments/
+staging/
+run.log
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db

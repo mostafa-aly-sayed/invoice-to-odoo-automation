@@ -1,0 +1,12 @@
+anthropic>=0.40.0
+pdfplumber>=0.11.0
+beautifulsoup4>=4.12.0
+lxml>=5.0.0
+flask>=3.0.0
+
+# Optional: only needed if some invoice PDFs are scanned images (no selectable text).
+# Also requires system packages: poppler-utils (for pdf2image) and tesseract-ocr
+# (with the Arabic language pack, e.g. `tesseract-ocr-ara` on Debian/Ubuntu, or the
+# "Arabic" language during Tesseract install on Windows).
+pdf2image>=1.17.0
+pytesseract>=0.3.10

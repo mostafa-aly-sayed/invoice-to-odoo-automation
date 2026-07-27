@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Naturesta — Invoice to Quotation</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h1>Invoice → Odoo quotation</h1>
+  <p class="sub">Checks salesorder@naturesta.com, matches customers/products, creates draft quotations in Odoo.</p>
+</header>
+
+<section class="card">
+  <h2>Run now</h2>
+  <div class="run-controls">
+    <label>Single day
+      <input type="date" id="date-single">
+    </label>
+    <span class="or">or</span>
+    <label>From
+      <input type="date" id="date-since">
+    </label>
+    <label>To
+      <input type="date" id="date-until">
+    </label>
+    <label class="checkbox">
+      <input type="checkbox" id="force-checkbox">
+      Force reprocess
+    </label>
+    <button id="run-btn">Run now</button>
+  </div>
+  <p class="hint">Leave dates empty to use the normal rolling window from config.json. "Force reprocess" retries emails already marked as handled — only use it for a specific message you know needs a redo.</p>
+  <div id="run-status"></div>
+  <ul id="run-events" class="events"></ul>
+</section>
+
+<nav class="tabs">
+  <button class="tab-btn active" data-tab="review">Needs review</button>
+  <button class="tab-btn" data-tab="history">Run history</button>
+  <button class="tab-btn" data-tab="aliases">Customer aliases</button>
+</nav>
+
+<section id="tab-review" class="tab-panel card active">
+  <h2>Needs review</h2>
+  <p class="hint">Orders that couldn't be auto-matched with confidence. Nothing was created in Odoo for these yet.</p>
+  <div id="review-list"></div>
+</section>
+
+<section id="tab-history" class="tab-panel card">
+  <h2>Run history</h2>
+  <div id="history-list"></div>
+  <div id="history-items"></div>
+</section>
+
+<section id="tab-aliases" class="tab-panel card">
+  <h2>Customer name aliases</h2>
+  <p class="hint">Maps text seen in emails to the exact Odoo customer name, so future runs match automatically without manual review.</p>
+  <div class="alias-add">
+    <input type="text" id="alias-key" placeholder="Text seen in email (e.g. seoudi)">
+    <input type="text" id="alias-customer-search" placeholder="Search Odoo customer…">
+    <div id="alias-customer-results" class="dropdown-results"></div>
+    <input type="hidden" id="alias-value">
+    <button id="alias-add-btn">Add</button>
+  </div>
+  <table id="alias-table" class="data-table">
+    <thead><tr><th>Email text</th><th>Odoo customer</th><th></th></tr></thead>
+    <tbody></tbody>
+  </table>
+</section>
+
+<div id="resolve-modal" class="modal-backdrop hidden">
+  <div class="modal">
+    <h2>Fix and create quotation</h2>
+    <div id="resolve-body"></div>
+    <div class="modal-actions">
+      <button id="resolve-cancel">Cancel</button>
+      <button id="resolve-submit">Create quotation</button>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

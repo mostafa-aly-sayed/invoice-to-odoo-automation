@@ -1,0 +1,96 @@
+* { box-sizing: border-box; }
+body {
+  font-family: -apple-system, Segoe UI, Arial, sans-serif;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px 20px 60px;
+  color: #1a1a1a;
+  background: #f7f7f5;
+}
+header h1 { margin: 0 0 4px; font-size: 22px; font-weight: 600; }
+header .sub { margin: 0 0 20px; color: #666; font-size: 14px; }
+
+.card {
+  background: #fff;
+  border: 1px solid #e2e2df;
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin-bottom: 18px;
+}
+.card h2 { margin: 0 0 12px; font-size: 16px; font-weight: 600; }
+.hint { color: #777; font-size: 13px; margin: 8px 0; }
+
+.run-controls { display: flex; flex-wrap: wrap; align-items: end; gap: 14px; }
+.run-controls label { display: flex; flex-direction: column; font-size: 12px; color: #555; gap: 4px; }
+.run-controls .or { align-self: center; color: #999; font-size: 13px; padding-bottom: 6px; }
+.run-controls .checkbox { flex-direction: row; align-items: center; font-size: 13px; }
+.run-controls .checkbox input { margin: 0; }
+input[type=date], input[type=text] {
+  padding: 6px 8px; border: 1px solid #ccc; border-radius: 6px; font-size: 13px;
+}
+button {
+  background: #2a2a28; color: #fff; border: none; border-radius: 6px;
+  padding: 8px 16px; font-size: 13px; cursor: pointer;
+}
+button:hover { background: #444; }
+button.secondary { background: #eee; color: #222; }
+button.secondary:hover { background: #ddd; }
+button.small { padding: 4px 10px; font-size: 12px; }
+
+#run-status { margin-top: 12px; font-size: 13px; font-weight: 600; }
+.events { list-style: none; padding: 0; margin: 10px 0 0; max-height: 260px; overflow-y: auto; font-size: 13px; }
+.events li { padding: 4px 0; border-bottom: 1px solid #f0f0ee; }
+.events li.created { color: #14804a; }
+.events li.needs_review { color: #b45309; }
+.events li.skipped { color: #888; }
+.events li.excluded { color: #aaa; }
+.events li.error { color: #c0392b; }
+
+.tabs { display: flex; gap: 6px; margin-bottom: 12px; }
+.tab-btn {
+  background: none; color: #555; border: 1px solid #ddd; border-radius: 8px 8px 0 0;
+  padding: 8px 16px; font-size: 13px;
+}
+.tab-btn.active { background: #fff; color: #111; font-weight: 600; border-bottom-color: #fff; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 10px; }
+.data-table th, .data-table td { text-align: left; padding: 8px 6px; border-bottom: 1px solid #eee; vertical-align: top; }
+.data-table th { color: #666; font-weight: 600; font-size: 12px; }
+
+.review-item {
+  border: 1px solid #eee; border-radius: 8px; padding: 12px 14px; margin-bottom: 10px;
+}
+.review-item .subject { font-weight: 600; font-size: 13px; }
+.review-item .meta { color: #888; font-size: 12px; margin: 3px 0 8px; }
+.review-item .reason { display: inline-block; background: #fff3e0; color: #92400e; font-size: 12px; padding: 2px 8px; border-radius: 10px; margin-bottom: 8px; }
+.review-item .candidates { font-size: 12px; color: #555; margin-bottom: 8px; }
+
+.alias-add { display: flex; gap: 8px; align-items: center; margin-bottom: 12px; position: relative; flex-wrap: wrap; }
+.alias-add input[type=text] { flex: 1; min-width: 160px; }
+.dropdown-results {
+  position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #ddd;
+  border-radius: 6px; max-height: 200px; overflow-y: auto; z-index: 10; display: none;
+}
+.dropdown-results.show { display: block; }
+.dropdown-results div { padding: 6px 10px; font-size: 13px; cursor: pointer; }
+.dropdown-results div:hover { background: #f2f2f0; }
+
+.modal-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: flex;
+  align-items: center; justify-content: center; z-index: 100;
+}
+.modal-backdrop.hidden { display: none; }
+.modal {
+  background: #fff; border-radius: 10px; padding: 20px 22px; width: 560px; max-width: 92vw;
+  max-height: 86vh; overflow-y: auto;
+}
+.modal h2 { margin-top: 0; font-size: 16px; }
+.modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
+.field-row { margin-bottom: 12px; }
+.field-row label { display: block; font-size: 12px; color: #555; margin-bottom: 4px; }
+.line-row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; position: relative; }
+.line-row .search-wrap { flex: 1; position: relative; }
+.line-row input[type=text] { width: 100%; }
+.line-row input[type=number] { width: 70px; }
