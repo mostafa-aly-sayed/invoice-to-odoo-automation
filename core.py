@@ -119,6 +119,15 @@ def match_and_create(cfg, odoo, aliases, subject, sender, extraction, doc):
     resolved_branch = _resolve_branch(cfg, odoo, partner, branch_text)
     client_order_ref = build_client_order_ref(extraction.get("po_number"), partner["name"], resolved_branch)
 
+    # Duplicate guard: if a quotation with this exact order reference already
+    # exists in Odoo for this customer, don't create it again. This checks Odoo
+    # directly, so re-runs (even with a cleared log or --force) only add NEW
+    # orders. Deleting the order in Odoo makes it eligible for recreation.
+    existing_id = odoo.find_existing_quotation(client_order_ref, partner["id"])
+    if existing_id:
+        return {"status": "skipped", "reason": "already_exists",
+                "existing_order_id": existing_id, "client_order_ref": client_order_ref}
+
     order_lines, unmatched, name_matched = [], [], []
     for line in extraction.get("lines", []):
         barcode = str(line.get("barcode") or "").strip()

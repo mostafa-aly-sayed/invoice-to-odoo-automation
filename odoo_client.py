@@ -169,6 +169,21 @@ class OdooClient:
 
     # ---- Quotation creation ---------------------------------------------------
 
+    def find_existing_quotation(self, client_order_ref, partner_id=None):
+        """Returns an existing sale.order id whose client_order_ref matches (for the
+        same partner, if given), or None. Used to avoid creating a duplicate when the
+        same order is processed again — checks Odoo itself, so it holds even if the
+        local processed-log is cleared or --force is used. If you delete the order in
+        Odoo, this returns None and the order will correctly be recreated."""
+        ref = (client_order_ref or "").strip()
+        if not ref:
+            return None
+        domain = [["client_order_ref", "=", ref]]
+        if partner_id:
+            domain = ["&", ["partner_id", "=", partner_id], ["client_order_ref", "=", ref]]
+        res = self.execute("sale.order", "search_read", domain, fields=["id"], limit=1)
+        return res[0]["id"] if res else None
+
     def create_draft_quotation(self, partner_id, client_order_ref, order_lines):
         """order_lines: list of (product_id, qty). Leaves state as default draft quotation."""
         vals = {
