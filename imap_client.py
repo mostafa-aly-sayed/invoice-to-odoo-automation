@@ -88,7 +88,11 @@ def fetch_new_messages(cfg, processed_ids, lookback_days=14, since_date=None, un
                 disp = str(part.get("Content-Disposition") or "")
                 filename = part.get_filename()
 
-                if filename and "attachment" in disp.lower():
+                # Key off the filename, not Content-Disposition: some forwarded
+                # messages carry a PDF without ever setting "attachment" on the
+                # disposition header, which previously caused the PDF to be
+                # silently dropped (and the email misread as having no content).
+                if filename:
                     fname = _decode_str(filename)
                     if fname.lower().endswith(".pdf"):
                         content = part.get_payload(decode=True)

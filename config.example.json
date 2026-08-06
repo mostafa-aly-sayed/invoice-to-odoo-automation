@@ -33,5 +33,6 @@
   "matching": {
     "customer_match_threshold": 0.5,
     "customer_confidence_flag_below": 0.75
-  }
+  },
+  "skip_plain_text_body": true
 }

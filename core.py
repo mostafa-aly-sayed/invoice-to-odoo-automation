@@ -33,16 +33,25 @@ def is_excluded_subject(subject, exclude_patterns):
 
 def build_client_order_ref(po_number, customer_name, branch_text):
     po = (po_number or "").strip()
-    ref = f"PO - {po}" if po else "PO -"
+    if not po:
+        # No PO number on the invoice — fall back to "PO - {branch name}"
+        # instead of leaving the number blank.
+        return f"PO - {branch_text}" if branch_text else "PO -"
+    ref = f"PO - {po}"
     tail = " - ".join([p for p in [customer_name, branch_text] if p])
     if tail:
         ref += f"    {tail}"
     return ref
 
 
-def documents_for_message(msg):
+def documents_for_message(msg, skip_plain_text=False):
     """Splits one email into a list of documents to run extraction on
-    separately (a PDF-heavy email may contain several branch orders)."""
+    separately (a PDF-heavy email may contain several branch orders).
+
+    When skip_plain_text is on, plain-text body emails (no PDF attachment,
+    no HTML table) are still returned but tagged with skip_reason so the
+    pipeline logs them as skipped instead of running extraction — PDFs and
+    Seoudi-style table-in-body orders are unaffected."""
     docs = []
     html = msg["body_html"]
     has_table = "<table" in (html or "").lower()
@@ -71,6 +80,7 @@ def documents_for_message(msg):
             "content_text": body_text,
             "source_bytes": None,
             "source_filename": None,
+            "skip_reason": "plain_text_body_disabled" if skip_plain_text else None,
         })
     return docs
 
@@ -275,9 +285,27 @@ def run_pipeline(source, since_date=None, until_date=None, force=False, on_event
             continue
 
         try:
-            docs = documents_for_message(msg)
+            docs = documents_for_message(msg, skip_plain_text=cfg.get("skip_plain_text_body", False))
             results = []
             for doc in docs:
+                # Plain-text body orders are disabled for now (config flag).
+                # Log as skipped without spending an AI call.
+                if doc.get("skip_reason"):
+                    res = {"status": "skipped", "reason": doc["skip_reason"]}
+                    results.append(res)
+                    store.record_item(
+                        run_id, message_id=mid, subject=subject, sender=sender,
+                        source_label=doc["source_label"], status="skipped",
+                        reason=doc["skip_reason"],
+                    )
+                    skipped += 1
+                    append_review_log(review_path, [
+                        datetime.now(timezone.utc).isoformat(), mid, subject, sender,
+                        "skipped", doc["skip_reason"],
+                    ])
+                    emit({"type": "skipped", "subject": subject, "reason": doc["skip_reason"]})
+                    continue
+
                 extraction, usage = extract_document(cfg, subject, sender, doc)
                 res = match_and_create(cfg, odoo, aliases, subject, sender, extraction, doc)
                 results.append(res)

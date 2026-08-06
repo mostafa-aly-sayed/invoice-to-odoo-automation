@@ -24,6 +24,11 @@
   "سعودي": "شركه يونيتد جروسرز شركة يونيتد جروسرز",
   "سعودى": "شركه يونيتد جروسرز شركة يونيتد جروسرز",
 
+  "talabat": "ديليفري هيرو ديمارت ايجيبت",
+  "طلبات": "ديليفري هيرو ديمارت ايجيبت",
+  "delivery hero": "ديليفري هيرو ديمارت ايجيبت",
+  "ديليفري هيرو": "ديليفري هيرو ديمارت ايجيبت",
+
   "_note_seoudi": "Seoudi is recorded in Odoo under the legal entity name 'شركه يونيتد جروسرز شركة يونيتد جروسرز' (United Grocers), not as a separate 'Seoudi' customer. Confirmed by the branch list matching (الحجاز, هايد بارك, سوديك ايست, ووتر واي, زايد all appear as its children) and historical orders S00093-S00096.",
 
   "_note_naturestar": "id 266 'ناتورستار للاستثمار' is our own company (Naturesta) under a slightly different spelling in Odoo, NOT a customer. It's already excluded from matching via own_company_keywords in config.json — no alias needed, it should never be created as an order."
